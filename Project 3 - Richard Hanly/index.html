@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit User Info</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Create User</h2>
+
+  <form action="/inventory/search" method="POST" id="userForm">
+    <fieldset>
+      <legend>Account Info</legend>
+
+      <label for="username">Username</label>
+      <input
+        id="username"
+        name="username"
+        type="text"
+        placeholder="e.g., rhanly"
+        autocomplete="username"
+        required
+        minlength="3"
+		maxlength="64"
+      >
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        placeholder="At least 8 characters"
+        autocomplete="new-password"
+        required
+        minlength="8"
+        maxlength="64"
+      >
+    </fieldset>
+
+    <fieldset>
+      <legend>Contact & Message</legend>
+
+      <label for="age">Age</label>
+      <input
+        id="age"
+        name="age"
+        type="number"
+        placeholder="e.g., 30"
+        required
+        min="13"
+        max="120"
+        inputmode="numeric"
+      >
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required
+        maxlength="254"
+      >
+
+      <label for="message">Message (10 words or less)</label>
+      <textarea
+        id="message"
+        name="message"
+        placeholder="Brief message (max 10 words)"
+        required
+      ></textarea>
+    </fieldset>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+  // Enforce 10-word limit for the message field
+  (function () {
+    const form = document.getElementById('userForm');
+    const message = document.getElementById('message');
+
+    function validateWordLimit() {
+      const words = message.value.trim().split(/\s+/).filter(Boolean);
+      if (words.length > 10) {
+        message.setCustomValidity('Please limit your message to 10 words or fewer.');
+      } else {
+        message.setCustomValidity('');
+      }
+    }
+
+    message.addEventListener('input', validateWordLimit);
+    form.addEventListener('submit', function (e) {
+      validateWordLimit();
+      if (!form.checkValidity()) {
+        e.preventDefault();
+      }
+    });
+  })();
+</script>
+
+
+</body>
+</html>
